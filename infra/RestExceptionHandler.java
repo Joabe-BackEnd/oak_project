@@ -1,0 +1,36 @@
+package com.system.piratas.oak.infra;
+
+import com.system.piratas.oak.exceptions.InventarioInexistenteException;
+import com.system.piratas.oak.exceptions.ListaDeProdutosVaziaException;
+import com.system.piratas.oak.exceptions.ProdutoInexistenteException;
+import com.system.piratas.oak.exceptions.ProdutoRepetidoException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+@ControllerAdvice
+public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(InventarioInexistenteException.class)
+    private ResponseEntity<String> inventarioInexistente(InventarioInexistenteException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Inventario inexistente.");
+    }
+
+    @ExceptionHandler(ListaDeProdutosVaziaException.class)
+    private ResponseEntity<String> listaDeProdutosVazia(ListaDeProdutosVaziaException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lista de produtos vazia.");
+    }
+
+    @ExceptionHandler(ProdutoInexistenteException.class)
+    private ResponseEntity<String> produtoInexistente(ProdutoInexistenteException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Produto inexistente.");
+    }
+
+    @ExceptionHandler(ProdutoRepetidoException.class)
+    private ResponseEntity<String> produtoRepetido(ProdutoRepetidoException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Produto já cadastrado.");
+    }
+
+}
