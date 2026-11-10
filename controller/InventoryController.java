@@ -9,6 +9,7 @@ import com.system.piratas.oak.model.InventoryProducts;
 import com.system.piratas.oak.service.InventoryProductsService;
 import com.system.piratas.oak.service.InventoryService;
 import com.system.piratas.oak.service.ProductsService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -43,7 +44,7 @@ public class InventoryController {
 
      */
     @PostMapping("/salvar/produto")
-    public ResponseEntity<ProductResponseDTO> saveProduct(@RequestBody ProductRequestDTO productRequestDTO){
+    public ResponseEntity<ProductResponseDTO> saveProduct(@Valid @RequestBody ProductRequestDTO productRequestDTO){
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -51,7 +52,7 @@ public class InventoryController {
     }
 
     @PatchMapping("/atualizar/produto")
-    public ResponseEntity<InventoryProductsResponseDTO> updateProduct(@RequestBody InventoryProductsRequestDTO dto){
+    public ResponseEntity<InventoryProductsResponseDTO> updateProduct(@Valid @RequestBody InventoryProductsRequestDTO dto){
         return ResponseEntity.status(HttpStatus.OK).body(inventoryProductsService.patchInventoryProducts(dto));
     }
 
