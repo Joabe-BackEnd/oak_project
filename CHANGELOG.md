@@ -1,6 +1,6 @@
 # Histórico de versões — Oak Inventory
 
-## v1.0.1 - 08/11/2026
+## v1.1.0 - 14/11/2026
 
 ### Adicionado
 - Cadastro de produtos.
@@ -10,19 +10,21 @@
 - Relacionamento entre produtos e inventários.
 - Consultas personalizadas utilizando Spring Data JPA.
 - Validação de dados utilizando Spring Validation.
+- Desenvolvimento da parte de segurança.
 
 ### Corrigido
 - Correção de erros nas consultas de inventário.
 - Correção do relacionamento entre entidades.
+- Implementação de Serializable em todos os models.
 
 ### Pendente
-- Desenvolvimento da parte de segurança.
-- Desenvolvimento do frontend desktop.
 - Implementação de relatórios.
+- Melhorias de código no geral.
 
 ---
 
-## v1.1.0 - Em desenvolvimento
+## v1.1.2 - Em desenvolvimento
 
 ### Planejado
 - Implementação de novas funcionalidades.
+- Desenvolvimento do frontend desktop.
