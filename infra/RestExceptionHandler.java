@@ -1,9 +1,6 @@
 package com.system.piratas.oak.infra;
 
-import com.system.piratas.oak.exceptions.InventarioInexistenteException;
-import com.system.piratas.oak.exceptions.ListaDeProdutosVaziaException;
-import com.system.piratas.oak.exceptions.ProdutoInexistenteException;
-import com.system.piratas.oak.exceptions.ProdutoRepetidoException;
+import com.system.piratas.oak.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +35,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<String> produtoRepetido(ProdutoRepetidoException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Produto já cadastrado.");
     }
+
+    @ExceptionHandler(UsuarioJaCadastradoException.class)
+    private ResponseEntity<String> usuarioJaCadastrado(UsuarioJaCadastradoException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário já cadastrado.");
+    }
+
+    @ExceptionHandler(UsuarioNaoEncontradoException.class)
+    private ResponseEntity<String> usuarioNaoEncontrado(UsuarioNaoEncontradoException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário não cadastrado..");
+    }
+
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
