@@ -1,0 +1,82 @@
+package com.system.piratas.oak.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+import org.jspecify.annotations.Nullable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+
+@Entity
+@Table(name = "usuarios")
+@Getter
+@Setter
+public class Usuarios implements Serializable, UserDetails {
+    private static final long serializableVersionID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
+    // columnDefinition = "char(36)"
+    private UUID id;
+    @Column(unique = true, nullable = false)
+    private String name;
+    @Column(nullable = false)
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "u_acessos",
+            joinColumns = @JoinColumn(
+                    name = "u_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "ac_id",
+                    referencedColumnName = "acesso_id"
+            )
+    )
+    private List<Acesso> acessos;
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return acessos;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.name;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
+}
