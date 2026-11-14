@@ -5,13 +5,13 @@ import com.system.piratas.oak.dtos.InventoryProductsResponseDTO;
 import com.system.piratas.oak.dtos.ProductRequestDTO;
 import com.system.piratas.oak.dtos.ProductResponseDTO;
 import com.system.piratas.oak.mapper.Mapper;
-import com.system.piratas.oak.model.InventoryProducts;
 import com.system.piratas.oak.service.InventoryProductsService;
 import com.system.piratas.oak.service.InventoryService;
 import com.system.piratas.oak.service.ProductsService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +43,7 @@ public class InventoryController {
     DeleteItem
 
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/salvar/produto")
     public ResponseEntity<ProductResponseDTO> saveProduct(@Valid @RequestBody ProductRequestDTO productRequestDTO){
 
@@ -51,16 +52,19 @@ public class InventoryController {
                 .body(productsService.saveProducts(productRequestDTO));
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('NORMAL')")
     @PatchMapping("/atualizar/produto")
     public ResponseEntity<InventoryProductsResponseDTO> updateProduct(@Valid @RequestBody InventoryProductsRequestDTO dto){
         return ResponseEntity.status(HttpStatus.OK).body(inventoryProductsService.patchInventoryProducts(dto));
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('NORMAL')")
     @GetMapping("/hoje")
     public ResponseEntity<List<InventoryProductsResponseDTO>> productsList(){
         return ResponseEntity.status(HttpStatus.OK).body(inventoryService.todayInventory());
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('NORMAL')")
     @GetMapping("/produtos")
     public ResponseEntity<List<ProductResponseDTO>> getProductsList(){
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -70,6 +74,7 @@ public class InventoryController {
         );
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('NORMAL')")
     @GetMapping("/buscar/inventario/{date}")
     public ResponseEntity<List<InventoryProductsResponseDTO>> inventoryByDate(@PathVariable LocalDate date){
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -77,6 +82,7 @@ public class InventoryController {
         );
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("deletar/produto/{id}")
     public ResponseEntity<String> deleteProductById(@PathVariable Integer id){
         String response = productsService.getProductById(id).name();
